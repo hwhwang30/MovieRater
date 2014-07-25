@@ -1,0 +1,93 @@
+<div id="wrapper">
+	</br><a href="/sign-out">
+		<button type="button" name="" value="" class="css3button">Logout</button>
+	</a>
+	<center><div id="header">All You Need is Popcorn</div></center>
+	<a href="/movies"><div id="popcorn"></div></a>
+	<a href="/movies"><div id="popcorn3"></div></a>
+</div>
+<div id="lside">
+	<center>
+	</br>
+		Recently Liked Reviews:
+			<% if @mlikes != [] %>
+				<%i=0
+				@mlikes.reverse.each do|n|
+					if i<2%>
+						<h4><%@movie = Movie.find(n.movie_id)%>
+							<a href="/movie/<%=@movie.id%>">
+								<%=@movie.title%>
+							</a>
+						</h4>
+						</a>
+						<div id="User_id">
+							<a href="/user/<%=User.find(@movie.user_id).id%>">
+								<h5>By <%=User.find(@movie.user_id).username%></h5>
+							</a>
+						</div>
+						<%i=i+1%>
+					<%end%>
+				<%end%>
+			<%else%>
+				<h4>None</h4>
+			<%end%>
+
+		Recently Liked Posts:
+	<% if @plikes != [] %>
+		<%i=0
+		@plikes.reverse.each do |n|
+			if i<2%>
+				<div id="post"><h4><%=Post.find(n.post_id).data%></h4></div>
+				<div id="User_id">
+					<a href="/user/<%=User.find(Post.find(n.post_id).user_id).id%>">
+						<h5>By <%=Post.find(n.post_id).author%></h5>
+					</a>
+			<%end%>
+		<%end%>
+		<%else%>
+			<h4>None</h4>
+		<%end%>
+	</center>
+</div>
+<div id="rside"><center><div id="user"></br>Current User:</div></center><p><center><%=@current_user.username%>
+</br>
+	<%=@profile.email%></center></p>
+	<center><a href="/user/<%=User.find(session[:user_id]).id%>">My Profile</a>
+	</div></center></div>
+	<center><div id="user"></br>Current User:</div></center><p><center><%=@current_user.username%>
+</br>
+	<%=@profile.email%></center></p>
+<center><div id="content">
+</br>
+	<div>
+		<a href="/add-movie">
+			<div id="btn1">Add a Movie</div>
+		</a>
+	</div>
+	<h1>
+		Recently Rated Movies
+	</h1>
+	<% if @movie.blank? %>
+		<h4>None</h4>
+	<%else%>
+		<%@movie=Movie.all%>
+			<%@movie.reverse.each do |n|%>
+			<div>
+				<h2>
+					<a href="/movie/<%=n.id%>">
+						<%=n.title%></a>
+				</h2>
+				</a><h3><%=n.rating%> stars</h3>
+				<a href="/movie/<%=n.id%>">
+					<img src="<%=n.avatar.url%>" height="200px" width="150px"/>
+				</a>
+				<p>
+					<a href="/user/<%=User.find(n.user_id).id%>">
+						Rated by <%=User.find(n.user_id).username%>
+					</a>
+				</p>
+			</div>
+		<%end%>
+	<%end%>
+	</p>	
+	</div></center>
